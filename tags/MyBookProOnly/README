@@ -1,0 +1,55 @@
+To install:
+======
+Run ./configure
+to build the make file.
+Then run:
+make install
+to install the program. (Please ensure that you have root priveleges)
+
+To use:
+======
+Before using, please make sure you are a priveleged user as by default
+the hardware permissions on Debian (and possibly any distro based off it)
+does not allow just any user to control the device.
+
+The easiest way to set the LEDs is to use the "wdsetleds" command
+and specify the disk and the value you would like to set. Should you
+wish to use "wdleds" please ensure you have the device serial number.
+I would recommend against using wdleds directly and instead using it
+through "wdsetleds".
+
+If you would like to use the LEDs to display the disk usage as it was 
+originally designed for, create a cron job with the "wddiskmeter" 
+script and update at 5 or 10 minute intervals (or an interval of your
+choosing).
+
+Should you wish to use it as a CPU usage gauge, add a cron job with
+the "wdcpumeter" script in a similar manner. 
+
+Should you wish to use it as a RAM usage gauge, add a cron job again
+in the same way for the "wdmemmeter" script.
+
+Other uses:
+=======
+You are more than welcome to write your own script and find another way
+to use the gauge. Each user will have different needs, but if you think your
+script maybe of use to others, feel free to let me know as there always
+new uses for the same things. 
+
+Bugs or suggestions:
+=============
+Please report any bugs or suggestions at the project site.
+http://code.google.com/p/wdleds/issues/list
+
+To uninstall:
+=======
+Run: make uninstall
+Or if you no longer have the make file,
+remove the following files:
+/usr/local/bin/wdleds
+/usr/local/bin/wdcpumeter
+/usr/local/bin/wddiskmeter
+/usr/local/bin/wdmemmeter
+/usr/local/bin/wdsetleds
+
+Don't forget to remove any related cron jobs you may have setup.

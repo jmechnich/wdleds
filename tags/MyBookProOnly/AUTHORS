@@ -1,0 +1,6 @@
+Jonathan Krishnanantham <AsGF2MX@gmail.com> wrote the
+core wdleds program along with the following essential scripts:
+-wdcpumeter     (use the LEDs as a CPU load gauge)
+-wddiskmeter    (use the LEDs for as disk usage gauge)
+-wdmemmeter  (use the LEDs to display the current RAM usage)
+-wdsetleds         (determines the disk serial number and calls the wdleds program with user led value)
