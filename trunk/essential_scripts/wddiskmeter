@@ -1,0 +1,268 @@
+#!/bin/sh
+#
+# USB WD My Book Fuel Gauge "disk meter" script
+# Copyright (C) 2007 Jonathan Krishnanantham, AsGF2MX@gmail.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, version 2.
+#
+# How it works:
+# This script takes in the disk path (/dev/sdX<optional partition no.>)
+# on which the leds are to be manipulated. If neither the partitions (-p)
+# option nor the all disk (-a) option are specified, the usage of the
+# specified disk will be shown. E.g. if /dev/sdb2 is specified, the usage
+# of only sdb2 will be show but if sdb is specified, the usage of all 
+# partitions on that disk will be shown. 
+#
+# However, if the all option is specified, the percentage of disk space
+# utilized by all available disks (sdX) is calculated and if partitions are
+# specified, the total usage of these partitions will be displayed.
+#
+
+# Usage and help statements
+usage="Usage: wddiskmeter [-d disk] [-p partition] [-hq]" ;
+help="Valid options: \n
+-a \n
+Displays the disk usage of all available disks (of the form sdX) \n
+\n
+-d [disk path] \n
+This path must be of the form /dev/sdX<partition number> \n
+where partition number is optional. If the partition option \n
+is not specified or if the '-a' option is not used , the \n
+capacity of the 'disk path' will be displayed. \n
+\n
+-h
+Prints this message \n
+\n
+-p [partition] \n
+Specify the partition or disks in a similar manner to disk path \n
+for multiple partitions, repeat flag and  partition name \n
+([-p partition1] [-p partition2] ...) \n
+\n
+-q \n
+quiet mode" ;
+
+
+# Quiet mode, default = off
+quiet=false ;
+
+# Error statements
+e_exitstatus="Info: wdsetleds exited with code : ";
+e_multidisk="Error: Multiple disks specified." ;
+e_nodisk="Error: No disk specified." ;
+e_partitions="Error: Specify partitions or use '-a' not both." ;
+e_partnotfound="Error: Couldn't find the specified partition(s)." ;
+e_setledfailed="Error: Failed to set leds. Run wdsetleds for further details." ;
+e_specifyone="Specify only one value." ;
+
+# Option error code
+E_OPTERROR=65 ;
+
+# Search pattern for all disks
+alldisks="sd/*" ;
+
+# If no arguments were provided,return usage and set exit code
+if [ $# -eq 0 ] ;
+then
+  echo $usage ;
+  exit $E_OPTERROR ;
+fi
+
+# Get all the options
+while getopts "d:p:qah" options ;
+do
+  case $options in
+    a ) if [ -z "$grepopts" ] ;
+        then
+          grepopts="-e $alldisks" ;
+        else
+          echo $e_partitions ;
+          exit $E_OPTERROR ;
+        fi ;;
+    d ) if [ -z "$disk" ] ;
+        then
+          disk=$OPTARG ;
+        else
+          echo $e_multidisk $e_specifyone ;
+          exit $E_OPTERROR ;
+        fi ;;
+    p ) if [ "$grepopts" = "-e $alldisks" ] ;
+        then
+          echo $e_partitions ;
+          exit $E_OPTERROR ;
+	    elif [ -z "$grepopts" ] ;
+        then
+	      grepopts="-e $OPTARG" ;
+	    else
+	      grepopts="$grepopts -e $OPTARG" ;
+	    fi ;;
+    q ) quiet=true      ;;
+    h ) echo $usage     ;
+        echo -e $help   ;
+        exit 0          ;;
+    [?] ) echo $usage   ;
+          exit 1        ;;
+    * ) echo $usage     ;
+        exit 1          ;;
+  esac
+done
+
+# If no disk was specified, quit.
+if [ -z "$disk" ] ;
+then
+  if [ $quiet = false ] ;
+  then
+    echo $e_nodisk ;
+  fi
+  exit $E_OPTERROR ;
+fi
+
+# If no partitions were specified, assume that of the disk
+if [ -z "$grepopts" ] ;
+then
+  grepopts="$disk" ;
+fi
+
+# Conversion constants to GB
+step=1024 ;
+P1=$(echo "scale=20; $step" | bc) ;
+P2=$(echo "scale=20; $P1*$step" | bc) ;
+P3=$(echo "scale=20; $P2*$step" | bc) ;
+P4=$(echo "scale=20; $P3*$step" | bc) ;
+P5=$(echo "scale=20; $P4*$step" | bc) ;
+
+# Initialize the counter
+counter=0 ;
+
+# Initialize the total and used capacity variables.
+totalcapacity=0 ;
+usedcapacity=0 ;
+
+# Calculate the total and the used space.
+for i in $(df -h|grep $grepopts)
+do
+  # Incrememnt the counter
+  counter=$(($counter + 1)) ;
+  
+  # Add up the total capacity of the partition
+  if [ $counter = 2 ] ;
+  then
+    # Extract the units in use
+    units=$(expr substr $i ${#i} 1) ;
+    
+    # Extract the value
+    value=$(expr substr $i 1 $((${#i} - 1))) ;
+
+    # Convert the value to G if not in G and total the capacity
+    case $units in
+      "Y") value=$(echo "scale=20; $value*$P5" | bc) ;;
+      "Z") value=$(echo "scale=20; $value*$P4" | bc) ;;
+      "E") value=$(echo "scale=20; $value*$P3" | bc) ;;
+      "P") value=$(echo "scale=20; $value*$P2" | bc) ;;
+      "T") value=$(echo "scale=20; $value*$P1" | bc) ;;
+      "M") value=$(echo "scale=20; $value/$P1" | bc) ;;
+      "K") value=$(echo "scale=20; $value/$P2" | bc) ;;
+    esac
+    totalcapacity=$(echo "scale=20; $totalcapacity+$value" | bc) ;
+  fi
+
+  # Add up the used capacity of the partition
+  if [ $counter = 3 ] ;
+  then
+    # Extract the units in use
+    units=$(expr substr $i ${#i} 1) ;
+
+    # Extract the value
+    value=$(expr substr $i 1 $((${#i} - 1))) ;
+
+    # Convert the value to G if not in G and total the capacity
+    case $units in
+      "Y") value=$(echo "scale=20; $value*$P5" | bc) ;;
+      "Z") value=$(echo "scale=20; $value*$P4" | bc) ;;
+      "E") value=$(echo "scale=20; $value*$P3" | bc) ;;
+      "P") value=$(echo "scale=20; $value*$P2" | bc) ;;
+      "T") value=$(echo "scale=20; $value*$P1" | bc) ;;
+      "M") value=$(echo "scale=20; $value/$P1" | bc) ;;
+      "K") value=$(echo "scale=20; $value/$P2" | bc) ;;
+    esac
+    usedcapacity=$(echo "scale=20; $usedcapacity+$value" | bc) ;
+  fi
+  
+  # If the counter reads 6, reset it
+  if [ $counter = 6 ] ;
+  then
+    counter=0 ;
+  fi
+done
+
+# If the total capacity is unset or 0, the partitions were not found.
+if [ -z $totalcapacity ] ;
+then
+  if [ $quiet = false ] ;
+  then
+    echo $e_partnotfound ;
+  fi 
+  exit 1 ;
+elif [ $(echo "$totalcapacity <= 0" |bc) -eq 1 ];
+then
+  if [ $quiet = false ] ;
+  then
+    echo $e_partnotfound ;
+  fi
+  exit 1 ;
+fi
+
+# Calculate the percentage in use
+utilized=$(echo "scale=0; 100*$usedcapacity/$totalcapacity" | bc) ;
+
+# Determine the led value to be set based on usage percentage
+# 0-3 %
+if [ $utilized -ge 0 ] && [ $utilized -lt 4 ] ;
+then
+  ledvalue=0 ;
+#  4-20 %
+elif [ $utilized -ge 4 ] && [ $utilized -lt 20 ] ;
+then
+  ledvalue=1 ;
+#  20-35 %
+elif [ $utilized -ge 20 ] && [ $utilized -lt 36 ] ;
+then
+  ledvalue=3 ;
+#  36-51 %
+elif [ $utilized -ge 36 ] && [ $utilized -lt 52 ] ;
+then
+  ledvalue=7 ;
+#  52-67 %
+elif [ $utilized -ge 52 ] && [ $utilized -lt 68 ] ;
+then
+  ledvalue=15 ;
+#  68-83 %
+elif [ $utilized -ge 68 ] && [ $utilized -lt 84 ] ;
+then
+  ledvalue=31 ;
+#  84-100 %
+elif [ $utilized -ge 84 ] && [ $utilized -le 100 ] ;
+then
+  ledvalue=63 ;
+fi
+
+# Now call the setleds script
+wdsetleds -d $disk -s $ledvalue -q  ;
+
+# Store the wdsetleds exit status
+wdsetledstatus=$? ;
+
+# If the leds failed to be set.
+if [ $wdsetledstatus -ne 0 ] ;
+  then
+    # Display message if quiet is unset
+    if [ $quiet = false ] ;
+    then
+      echo $e_setledfailed ;
+      echo $e_exitstatus $wdsetledstatus ;
+    fi
+fi
+
+# Return wdsetleds exit status.
+exit $wdsetledstatus ;

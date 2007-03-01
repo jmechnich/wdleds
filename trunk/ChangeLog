@@ -1,0 +1,12 @@
+v0.9
+=============================
+ * Code cleanup
+ * Created a seperate header file for definitions
+ * Created scripts to perform various function (CPU/RAM/Disk meter scripts)
+ * Added necessary files for auto configuration and installation
+
+v0.8
+=============================
+ * Start of changelog
+ * Implemented "disk serial" parameter for user specified disk
+ * Created wdsetleds script to automatically determine the disk serial
