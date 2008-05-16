@@ -1,10 +1,23 @@
+Instructions are available on the wiki of the project site:
+http://code.google.com/p/wdleds/wiki/
+
+However a brief is provided below
+
 To install:
 ======
+Please also ensure you have the following packages installed:
+* make 
+* gcc 
+* lib6c-dev 
+* libusb-0.1-4 
+* libusb-dev 
+* build-essential
+
 Run ./configure
 to build the make file.
 Then run:
 make install
-to install the program. (Please ensure that you have root priveleges)
+to install the program. (Requires that you have root priveleges)
 
 To use:
 ======
@@ -29,20 +42,23 @@ the "wdcpumeter" script in a similar manner.
 Should you wish to use it as a RAM usage gauge, add a cron job again
 in the same way for the "wdmemmeter" script.
 
+In order to support the newer bar style fuel gauges a "-b" option
+was added to the essential scripts. 
+
 Other uses:
-=======
+===========
 You are more than welcome to write your own script and find another way
 to use the gauge. Each user will have different needs, but if you think your
 script maybe of use to others, feel free to let me know as there always
 new uses for the same things. 
 
 Bugs or suggestions:
-=============
+====================
 Please report any bugs or suggestions at the project site.
 http://code.google.com/p/wdleds/issues/list
 
 To uninstall:
-=======
+=============
 Run: make uninstall
 Or if you no longer have the make file,
 remove the following files:

@@ -101,6 +101,10 @@ then
     # Get serial number
     serial=$(udevinfo -q env -n $disk|grep ID_SERIAL) ;
     serial=$(expr substr $serial $(expr ${#vendor} + ${#product} + 13) 128) ;
+    # Get bus type
+    bus=$(udevinfo -q env -n $disk|grep ID_BUS);
+    bus=$(expr substr $bus 8 128);
+
 
     # Print the info if it is verbose
     if [ $verbose = true ];
@@ -108,17 +112,18 @@ then
       echo "Details of specified disk $disk :"
       echo "Vendor  :" $vendor ;
       echo "Product :" $product;
+      echo "Bus     :" $bus;
       echo "Serial  :" $serial ;
     fi
 
-    # Check if it is a WD external device
-    if [ "$vendor" != "WD" ] || [ -z $(echo $product|grep External) ] ;
+    # Check if it is a WD usb based device
+    if [ "$bus" != "usb" ]  || [ "$vendor" != "WD" ] || [ -z $(echo $product|grep -e "[External|My_Book]") ] ;
     then
-      if [ $quiet = false ] ;
-      then
-	    echo $e_notmybook ;
-      fi
-      exit 1 ;
+	    if [ $quiet = false ] ;
+	    then
+		    echo $e_notmybook ;
+	    fi
+	    exit 1 ;
     fi
 
     # Now call the wdleds program with the serial and the ledvalue

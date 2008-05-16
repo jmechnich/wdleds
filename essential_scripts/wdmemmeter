@@ -14,14 +14,17 @@
 #
 
 # Usage and help statements
-usage="Usage: wdmemmeter [-d disk] [-hq]" ;
+usage="Usage: wdmemmeter [-d disk] [-hq] [-b]" ;
 help="Valid options: \n
 -d [disk path] - this path must be of the form /dev/sdX \n
 -h - prints this message \n
--q - quiet mode " ;
+-q - quiet mode \n
+-b - set for use with new bar type gauge" ;
 
 # Quiet mode, default = off
 quiet=false ;
+# Bar type, default = off
+bar=false;
 
 # Error statements
 e_exitstatus="Info: wdsetleds exited with code : ";
@@ -41,7 +44,7 @@ then
 fi
 
 # Get all the options
-while getopts "d:qh" options ;
+while getopts "d:qhb" options ;
 do
   case $options in
     d ) if [ -z "$disk" ] ;
@@ -55,6 +58,7 @@ do
     h ) echo $usage     ;
         echo -e $help   ;
         exit 0          ;;
+    b ) bar=true        ;;
     [?] ) echo $usage   ;
           exit 1        ;;
     * ) echo $usage     ;
@@ -81,35 +85,62 @@ totalram="$(free -mto | grep Mem: | awk '{ print $2 }')" ;
 # Calculate the percentage in use
 utilized=$(echo "scale=0; 100*$usedram/$totalram" | bc) ;
 
-# Determine the led value to be set based on usage percentage
-# 0-3 %
-if [ $utilized -ge 0 ] && [ $utilized -lt 4 ] ;
+# Determine the led value to be set based on usage percentage 
+# Led values for bar type
+if [ $bar = true ] ;
 then
-  ledvalue=0 ;
-#  4-20 %
-elif [ $utilized -ge 4 ] && [ $utilized -lt 20 ] ;
-then
-  ledvalue=1 ;
-#  20-35 %
-elif [ $utilized -ge 20 ] && [ $utilized -lt 36 ] ;
-then
-  ledvalue=3 ;
-#  36-51 %
-elif [ $utilized -ge 36 ] && [ $utilized -lt 52 ] ;
-then
-  ledvalue=7 ;
-#  52-67 %
-elif [ $utilized -ge 52 ] && [ $utilized -lt 68 ] ;
-then
-  ledvalue=15 ;
-#  68-83 %
-elif [ $utilized -ge 68 ] && [ $utilized -lt 84 ] ;
-then
-  ledvalue=31 ;
-#  84-100 %
-elif [ $utilized -ge 84 ] && [ $utilized -le 100 ] ;
-then
-  ledvalue=63 ;
+  # 0-3 %
+  if [ $utilized -ge 0 ] && [ $utilized -lt 4 ] ;
+  then
+    ledvalue=0 ;
+  #  4-24 %
+  elif [ $utilized -ge 4 ] && [ $utilized -lt 25 ] ;
+  then
+    ledvalue=1 ;
+  #  25-49 %
+  elif [ $utilized -ge 25 ] && [ $utilized -lt 50 ] ;
+  then
+    ledvalue=3 ;
+  #  50-74 %
+  elif [ $utilized -ge 50 ] && [ $utilized -lt 75 ] ;
+  then
+    ledvalue=7 ;
+  #  75-100 %
+  elif [ $utilized -ge 75 ] && [ $utilized -le 100 ] ;
+  then
+    ledvalue=15 ;
+  fi
+# Led values for ring type (default)
+else
+  # 0-3 %
+  if [ $utilized -ge 0 ] && [ $utilized -lt 4 ] ;
+  then
+    ledvalue=0 ;
+  #  4-20 %
+  elif [ $utilized -ge 4 ] && [ $utilized -lt 20 ] ;
+  then
+    ledvalue=1 ;
+  #  20-35 %
+  elif [ $utilized -ge 20 ] && [ $utilized -lt 36 ] ;
+  then
+    ledvalue=3 ;
+  #  36-51 %
+  elif [ $utilized -ge 36 ] && [ $utilized -lt 52 ] ;
+  then
+    ledvalue=7 ;
+  #  52-67 %
+  elif [ $utilized -ge 52 ] && [ $utilized -lt 68 ] ;
+  then
+    ledvalue=15 ;
+  #  68-83 %
+  elif [ $utilized -ge 68 ] && [ $utilized -lt 84 ] ;
+  then
+    ledvalue=31 ;
+  #  84-100 %
+  elif [ $utilized -ge 84 ] && [ $utilized -le 100 ] ;
+  then
+    ledvalue=63 ;
+  fi
 fi
 
 # Now call the setleds script

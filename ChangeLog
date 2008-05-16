@@ -1,3 +1,12 @@
+v0.91
+=============================
+ * Patch for WD My Book Home edition device support provided by james.clendenan
+   see Issue #2
+ * Updated essential scripts to now support the new bar type WD fuel gauge
+ * Minor speed tweaks for wddiskmeter
+ * Updated Readme
+ * Updated wiki to address Issue #3
+
 v0.9
 =============================
  * Code cleanup
