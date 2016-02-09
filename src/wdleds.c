@@ -140,7 +140,7 @@ int main(int argc, char **argv)
 
 	/* Change the pattern */
     if	(change_pattern(usb_handle, pattern)<0){
-        fprintf(stderr,"An error occured setting the LEDs!\n");
+        fprintf(stderr,"An error occurred setting the LEDs!\n");
         goto release;    
     }		
 
