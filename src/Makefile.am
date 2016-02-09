@@ -1,21 +1,11 @@
-## Process this file with automake to produce Makefile.in
+AM_CFLAGS = \
+	$(libusb_CFLAGS) \
+	-Wall
 
-## Created by Anjuta
-
-INCLUDES = \
-	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
-	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
-	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 
-
-AM_CFLAGS =\
-	 -Wall
+wdleds_LDADD = $(libusb_LIBS)
 
 bin_PROGRAMS = wdleds
 
 wdleds_SOURCES = \
-	wdleds.c				\
+	wdleds.c \				\
 	wdleds.h
-
-wdleds_LDFLAGS =
-
-wdleds_LDADD = -L /lib/ -lusb

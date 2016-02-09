@@ -1,29 +1,17 @@
-dnl Process this file with autoconf to produce a configure script.
-dnl Created by Anjuta application wizard.
-
-AC_INIT(configure.ac)
-AM_INIT_AUTOMAKE(wdleds, 0.9)
-AM_CONFIG_HEADER(config.h)
-AM_MAINTAINER_MODE
+AC_INIT([wdleds], [0.9])
+AC_CONFIG_SRCDIR([src/wdleds.c])
+AM_INIT_AUTOMAKE
+AC_CONFIG_HEADERS([config.h])
 
 AC_ISC_POSIX
 AC_PROG_CC
 AM_PROG_CC_STDC
 AC_HEADER_STDC
+PKG_CHECK_MODULES([libusb],[libusb])
 
-
-
-
-
-
-
-
-
-
-
-AC_OUTPUT([
-Makefile
-essential_scripts/Makefile
-src/Makefile
-
+AC_CONFIG_FILES([
+ Makefile
+ essential_scripts/Makefile
+ src/Makefile
 ])
+AC_OUTPUT
