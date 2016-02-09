@@ -13,4 +13,8 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: controls the 'fuel gauge' LEDs of WD MyBook hard disks
  wdleds is a collection of scripts for controlling the LEDs on Western
- Digital's MyBook USB HDDs.
+ Digital's MyBook USB HDDs:
+  - wdcpumeter:  shows load average
+  - wddiskmeter: shows disk usage
+  - wdmemmeter:  shows memory usage
+  - wdsetleds:   shows explicitly selected LED pattern
