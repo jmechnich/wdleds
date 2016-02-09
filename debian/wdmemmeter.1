@@ -1,0 +1,32 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.TH WDMEMMETER 1 "February 9, 2016"
+.SH NAME
+wdmemmeter \- display RAM usage using 'fuel gauge' LEDs on WD MyBook hard disks
+.SH SYNOPSIS
+.B wdmemmeter
+[\fB\-bhq\fR]
+[\fB\-d\fR \fIDISK\fR]
+.SH DESCRIPTION
+.B wdmemmeter
+displays RAM usage using 'fuel gauge' LEDs on WD MyBook hard disks.
+.SH OPTIONS
+.TP
+.BR \-b
+Use this flag for use with bar-type gauge.
+.TP
+.BR \-d " "\fIDISK\fR
+\fIDISK\fR must be of the form /dev/sdX.
+.TP
+.BR \-h
+Print help message.
+.TP
+.BR \-q
+Quiet mode.
+.SH AUTHOR
+.B wdmemmeter
+was written by Jonathan Krishnanantham <AsGF2MX@gmail.com>.
+.SH SEE ALSO
+.BR wdcpumeter (1),
+.BR wddiskmeter (1),
+.BR wdleds (1),
+.BR wdsetleds (1).

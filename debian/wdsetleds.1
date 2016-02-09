@@ -1,0 +1,37 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.TH WDSETLEDS 1 "February 9, 2016"
+.SH NAME
+wdsetleds \- set 'fuel gauge' LEDs on WD MyBook hard disks
+.SH SYNOPSIS
+.B wdsetleds
+[\fB\-hqv\fR]
+[\fB\-d\fR \fIDISK\fR]
+[\fB\-s\fR \fIPATTERN\fR]
+.SH DESCRIPTION
+.B wdsetleds
+sets 'fuel gauge' LEDs on WD MyBook hard disks. This program is a convenience wrapper for
+.BR wdleds .
+.SH OPTIONS
+.TP
+.BR \-d " "\fIDISK\fR
+\fIDISK\fR must be of the form /dev/sdX.
+.TP
+.BR \-h
+Print help message.
+.TP
+.BR \-q
+Quiet mode.
+.TP
+.BR \-s " "\fIPATTERN\fR
+Sets LED pattern to the bit array corresponding to the integer \fIPATTERN\fR. The valid range for \fIPATTERN\fR is 0-63.
+.TP
+.BR \-v
+Verbose mode.
+.SH AUTHOR
+.B wdsetleds
+was written by Jonathan Krishnanantham <AsGF2MX@gmail.com>.
+.SH SEE ALSO
+.BR wdcpumeter (1),
+.BR wddiskmeter (1),
+.BR wdleds (1),
+.BR wdmemmeter (1).

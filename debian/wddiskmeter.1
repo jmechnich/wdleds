@@ -1,0 +1,59 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH WDDISKMETER 1 "February 9, 2016"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+wddiskmeter \- display free partition space using 'fuel gauge' LEDs on WD MyBook hard disks
+.SH SYNOPSIS
+.B wddiskmeter
+[\fB\-abhq\fR]
+[\fB\-d\fR \fIDISK\fR]
+[\fB\-p\fR \fIPARTITION\fR]
+.SH DESCRIPTION
+.B wddiskmeter
+displays free partition space using 'fuel gauge' LEDs on WD MyBook hard disks.
+.SH OPTIONS
+.TP
+.BR \-a
+Displays the disk usage of all available disks (of the form sdX).
+.TP
+.BR \-b
+Use this flag for use with bar-type gauge.
+.TP
+.BR \-d " "\fIDISK\fR
+\fIDISK\fR must be of the form /dev/sdX<partition number>
+where partition number is optional. If the partition option
+is not specified or if the \fB\-a\fR option is not used, the
+capacity of the 'disk path' will be displayed.
+.TP
+.BR \-h
+Print help message.
+.TP
+.BR \-p " " \fIPARTITION\fR
+Specify the partition or disks in a similar manner to disk path
+for multiple partitions, repeat flag and  partition name
+([-p partition1] [-p partition2] ...).
+.TP
+.BR \-q
+Quiet mode.
+.SH AUTHOR
+.B wddiskmeter
+was written by Jonathan Krishnanantham <AsGF2MX@gmail.com>.
+.SH SEE ALSO
+.BR wdcpumeter (1),
+.BR wdleds (1),
+.BR wdmemmeter (1),
+.BR wdsetleds (1).

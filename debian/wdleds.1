@@ -1,0 +1,72 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH WDLEDS 1 "February 9, 2016"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+wdleds \- set 'fuel gauge' LEDs on WD MyBook hard disks
+.SH SYNOPSIS
+.B wdleds
+.I SERIAL
+.I INTEGER
+.SH DESCRIPTION
+.B wdleds
+sets the individual LEDs of a WD MyBook hard disk.  It is mainly intended to be used by convenience wrapper scripts
+.B wddiskmeter,
+.B wdcpumeter,
+.B wdmemmeter and
+.B wdsetleds.
+.PP
+When used directly, it requires two arguments:
+.PP
+.TP
+.B SERIAL
+The hard disk's serial number in hexadecimal format. For example, use the value of the field
+.B ID_SERIAL_SHORT
+from the output of
+.BR "/sbin/udevadm info --query property --name /dev/sdX".
+.TP
+.B INTEGER
+A value from 0-63, corresponding to a bit array of the six LED states.
+.RE
+.SH EXAMPLES
+To set all LEDs to
+.BR off ,
+use:
+.PP
+.nf
+.RS
+wdleds 123456789ABCDEF $((2#000000))
+.RE
+.fi
+.PP
+To set all LEDs to
+.BR on ,
+use:
+.PP
+.nf
+.RS
+wdleds 123456789ABCDEF $((2#111111))
+.RE
+.fi
+.PP
+.SH AUTHOR
+.B wdleds
+was written by Jonathan Krishnanantham <AsGF2MX@gmail.com>.
+.SH SEE ALSO
+.BR wddiskmeter (1),
+.BR wdcpumeter (1),
+.BR wdmemmeter (1),
+.BR wdsetleds (1).

@@ -1,0 +1,62 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH WDCPUMETER 1 "February 9, 2016"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+wdcpumeter \- display CPU load average using 'fuel gauge' LEDs on WD MyBook hard disks
+.SH SYNOPSIS
+.B wdcpumeter
+[\fB\-bhq\fR]
+[\fB\-d\fR \fIDISK\fR]
+[\fB\-t\fR \fILOADAVG\fR]
+.SH DESCRIPTION
+.B wdcpumeter
+displays CPU load average using 'fuel gauge' LEDs on WD MyBook hard disks.
+.SH OPTIONS
+.TP
+.BR \-b
+Use this flag for use with bar-type gauge.
+.TP
+.BR \-d " "\fIDISK\fR
+\fIDISK\fR must be of the form /dev/sdX.
+.TP
+.BR \-h
+Print help message.
+.TP
+.BR \-t " " \fILOADAVG\fR
+Selects CPU load averaging time, where \fILOADAVG\fR must be one of:
+.br
+.RS
+.B 1
+- 15 minutes,
+.br
+.B 2
+- 5 minutes,
+.br
+.B 3
+- 1 minute.
+.RE
+.TP
+.BR \-q
+Quiet mode.
+.SH AUTHOR
+.B wdcpumeter
+was written by Jonathan Krishnanantham <AsGF2MX@gmail.com>.
+.SH SEE ALSO
+.BR wddiskmeter (1),
+.BR wdleds (1),
+.BR wdmemmeter (1),
+.BR wdsetleds (1).
