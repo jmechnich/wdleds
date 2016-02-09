@@ -86,6 +86,9 @@ if [ $verbose = true ] && [ $quiet = true ] ;
     exit $E_OPTERROR ;
 fi
 
+#UDEVINFO="udevinfo -q env -n"
+UDEVINFO="/sbin/udevadm info --query property --name"
+
 # Check if the specified disk exists
 if [ -n "${disk}" ] && [ -b $disk ] ;
 then 
@@ -93,17 +96,13 @@ then
   if [ -n "${ledvalue}" ] && [ $ledvalue -ge 0 ] && [ $ledvalue -lt 64 ] ; 
   then
     # Get vendor name
-    vendor=$(udevinfo -q env -n $disk|grep ID_VENDOR) ;
-    vendor=$(expr substr $vendor 11 128) ;
+    vendor=$($UDEVINFO $disk|grep 'ID_VENDOR='|cut -d= -f2-) ;
     # Get product name
-    product=$(udevinfo -q env -n $disk|grep ID_MODEL) ;
-    product=$(expr substr $product 10 128) ;
+    product=$($UDEVINFO $disk|grep 'ID_MODEL='|cut -d= -f2-) ;
     # Get serial number
-    serial=$(udevinfo -q env -n $disk|grep ID_SERIAL) ;
-    serial=$(expr substr $serial $(expr ${#vendor} + ${#product} + 13) 128) ;
+    serial=$($UDEVINFO $disk|grep 'ID_SERIAL_SHORT='|cut -d= -f2-) ;
     # Get bus type
-    bus=$(udevinfo -q env -n $disk|grep ID_BUS);
-    bus=$(expr substr $bus 8 128);
+    bus=$($UDEVINFO $disk|grep 'ID_BUS='|cut -d= -f2-);
 
 
     # Print the info if it is verbose
