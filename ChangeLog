@@ -1,21 +1,31 @@
-v0.91
-=============================
- * Patch for WD My Book Home edition device support provided by james.clendenan
-   see Issue #2
- * Updated essential scripts to now support the new bar type WD fuel gauge
- * Minor speed tweaks for wddiskmeter
- * Updated Readme
- * Updated wiki to address Issue #3
+2016-02-09  Joerg Mechnich  <joerg.mechnich@gmail.com>
 
-v0.9
-=============================
- * Code cleanup
- * Created a seperate header file for definitions
- * Created scripts to perform various function (CPU/RAM/Disk meter scripts)
- * Added necessary files for auto configuration and installation
+	* Release 0.9.2
+	* wdleds.c: added support for MyBook Studio
+	* wdsetleds: use udevadm instead of udevinfo
 
-v0.8
-=============================
- * Start of changelog
- * Implemented "disk serial" parameter for user specified disk
- * Created wdsetleds script to automatically determine the disk serial
+2008-05-16  Jonathan Krishnanantham  <AsGF2MX@gmail.com>
+
+	* Release 0.9.1
+	* Patch for WD My Book Home edition device support provided by
+	james.clendenan see Issue #2
+	* Updated essential scripts to now support the new bar type WD
+	fuel gauge
+	* Minor speed tweaks for wddiskmeter
+	* Updated Readme
+	* Updated wiki to address Issue #3
+
+2007-03-01  Jonathan Krishnanantham  <AsGF2MX@gmail.com>
+
+	* Release 0.9
+	* Code cleanup
+	* Created a seperate header file for definitions
+	* Created scripts to perform various function (CPU/RAM/Disk meter scripts)
+	* Added necessary files for auto configuration and installation
+
+2007-01-01  Jonathan Krishnanantham  <AsGF2MX@gmail.com>
+
+	* Release 0.8
+	* Start of changelog
+	* Implemented "disk serial" parameter for user specified disk
+	* Created wdsetleds script to automatically determine the disk serial
