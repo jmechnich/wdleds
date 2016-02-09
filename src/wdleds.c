@@ -56,6 +56,7 @@ static struct usb_dev_handle *device_init(char *serial)
 
 				/* If the Product ID is for Pro I or Premium or Premium S or Home Edition*/
 				if ((dev->descriptor.idProduct == PRODUCT_ID_PROI)||	\
+					(dev->descriptor.idProduct == PRODUCT_ID_STUDIO)||	\
 					(dev->descriptor.idProduct == PRODUCT_ID_PRES)||	\
 					(dev->descriptor.idProduct == PRODUCT_ID_PRE)||	\
 					(dev->descriptor.idProduct ==PRODUCT_ID_H1CS)) {

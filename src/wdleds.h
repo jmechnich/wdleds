@@ -26,6 +26,7 @@
 #define PRODUCT_ID_PRE		0x0902
 #define PRODUCT_ID_PRES		0x0902
 #define PRODUCT_ID_H1CS		0x1102
+#define PRODUCT_ID_STUDIO	0x1103
 
 /* WD HID interface number */
 #define WD_HID_IFACE	0x1
