@@ -95,28 +95,21 @@ then
   # Check if the led value is valid
   if [ -n "${ledvalue}" ] && [ $ledvalue -ge 0 ] && [ $ledvalue -lt 64 ] ; 
   then
-    # Get vendor name
-    vendor=$($UDEVINFO $disk|grep 'ID_VENDOR='|cut -d= -f2-) ;
     # Get product name
     product=$($UDEVINFO $disk|grep 'ID_MODEL='|cut -d= -f2-) ;
     # Get serial number
     serial=$($UDEVINFO $disk|grep 'ID_SERIAL_SHORT='|cut -d= -f2-) ;
-    # Get bus type
-    bus=$($UDEVINFO $disk|grep 'ID_BUS='|cut -d= -f2-);
-
 
     # Print the info if it is verbose
     if [ $verbose = true ];
     then
       echo "Details of specified disk $disk :"
-      echo "Vendor  :" $vendor ;
       echo "Product :" $product;
-      echo "Bus     :" $bus;
       echo "Serial  :" $serial ;
     fi
 
     # Check if it is a WD usb based device
-    if [ "$bus" != "usb" ]  || [ "$vendor" != "WD" ] || [ -z $(echo $product|grep -e "[External|My_Book]") ] ;
+    if [ -z $(echo $product|grep -e "[External|My_Book]") ] ;
     then
 	    if [ $quiet = false ] ;
 	    then

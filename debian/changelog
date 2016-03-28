@@ -1,3 +1,9 @@
+wdleds (0.9.5) unstable; urgency=medium
+
+  * adapted wsetleds to udevadm output changes
+
+ -- Jörg Mechnich <Joerg.Mechnich@gmail.com>  Mon, 28 Mar 2016 22:04:35 +0200
+
 wdleds (0.9.4) unstable; urgency=medium
 
   * Updated build flags to Debian hardening standards

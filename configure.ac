@@ -1,4 +1,4 @@
-AC_INIT([wdleds], [0.9.4])
+AC_INIT([wdleds], [0.9.5])
 AC_CONFIG_SRCDIR([src/wdleds.c])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS([config.h])
