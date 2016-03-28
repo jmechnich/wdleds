@@ -1,8 +1,9 @@
 AM_CFLAGS = \
 	$(libusb_CFLAGS) \
-	-Wall
+	-Wall -fPIE -pie
 
 wdleds_LDADD = $(libusb_LIBS)
+wdleds_LDFLAGS = -z now
 
 bin_PROGRAMS = wdleds
 

@@ -3,7 +3,7 @@ Section: misc
 Priority: optional
 Maintainer: Jörg Mechnich <Joerg.Mechnich@gmail.com>
 Build-Depends: debhelper (>=9),autotools-dev,libusb-dev,pkg-config
-Standards-Version: 3.9.6
+Standards-Version: 3.9.7
 Homepage: https://github.com/jmechnich/wdleds
 Vcs-Git: https://github.com:jmechnich/wdleds.git
 Vcs-Browser: https://github.com/jmechnich/wdleds

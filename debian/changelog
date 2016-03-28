@@ -1,3 +1,9 @@
+wdleds (0.9.4) unstable; urgency=medium
+
+  * Updated build flags to Debian hardening standards
+
+ -- Jörg Mechnich <Joerg.Mechnich@gmail.com>  Mon, 28 Mar 2016 20:04:31 +0200
+
 wdleds (0.9.3) unstable; urgency=medium
 
   * Cleaned up coding style
