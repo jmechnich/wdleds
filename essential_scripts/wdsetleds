@@ -87,7 +87,7 @@ if [ $verbose = true ] && [ $quiet = true ] ;
 fi
 
 #UDEVINFO="udevinfo -q env -n"
-UDEVINFO="/sbin/udevadm info --query property --name"
+UDEVINFO="udevadm info --query property --name"
 
 # Check if the specified disk exists
 if [ -n "${disk}" ] && [ -b $disk ] ;
